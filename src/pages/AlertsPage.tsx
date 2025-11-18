@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useDashboardData } from '../context/DataContext';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import BarChartCard from '../components/BarChartCard';
 
 const levelColors: Record<string, string> = {
   اطلاع: 'bg-sky-100 text-sky-700',
@@ -99,20 +99,14 @@ const AlertsPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-        <h3 className="text-lg font-semibold text-slate-800 dark:text-white">نمودار تعداد هشدارها</h3>
-        <div className="mt-4 h-72">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis allowDecimals={false} />
-              <Tooltip />
-              <Bar dataKey="count" fill="#f97316" radius={[12, 12, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+      <BarChartCard
+        title="نمودار تعداد هشدارها"
+        data={chartData}
+        xKey="date"
+        height={280}
+        bars={[{ dataKey: 'count', color: '#f97316', name: 'تعداد هشدار' }]}
+        yAxisProps={{ allowDecimals: false }}
+      />
     </div>
   );
 };

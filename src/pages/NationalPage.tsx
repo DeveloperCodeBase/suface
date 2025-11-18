@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDashboardData } from '../context/DataContext';
 import KpiCard from '../components/KpiCard';
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import TimeSeriesChart from '../components/TimeSeriesChart';
 
 const NationalPage: React.FC = () => {
   const { dams, provinces, nationalTrend, nationalTotals } = useDashboardData();
@@ -90,17 +90,12 @@ const NationalPage: React.FC = () => {
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
           <h3 className="text-lg font-semibold text-slate-800 dark:text-white">روند ذخیره کل کشور (۵ سال)</h3>
-          <div className="mt-4 h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={nationalTrend}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip />
-                <Area type="monotone" dataKey="storage" stroke="#0284c7" fill="#bae6fd" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          <TimeSeriesChart
+            className="mt-4 h-80"
+            data={nationalTrend}
+            xKey="year"
+            lines={[{ dataKey: 'storage', color: '#0284c7', type: 'area', name: 'ذخیره کل' }]}
+          />
         </div>
       </div>
 

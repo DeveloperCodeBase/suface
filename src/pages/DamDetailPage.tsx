@@ -3,20 +3,8 @@ import { useDashboardData } from '../context/DataContext';
 import KpiCard from '../components/KpiCard';
 import AlertsList from '../components/AlertsList';
 import DataTable from '../components/DataTable';
-import {
-  Area,
-  AreaChart,
-  Bar,
-  CartesianGrid,
-  ComposedChart,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts';
+import TimeSeriesChart from '../components/TimeSeriesChart';
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const statusStyles: Record<string, string> = {
   عادی: 'bg-emerald-100 text-emerald-700',
@@ -101,37 +89,34 @@ const DamDetailPage: React.FC = () => {
           </div>
         </div>
         <div className="mt-4 h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            {tab === 'level' && (
-              <LineChart data={filteredSeries}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line dataKey="waterLevel" stroke="#0ea5e9" strokeWidth={3} dot={false} />
-              </LineChart>
-            )}
-            {tab === 'flow' && (
-              <LineChart data={filteredSeries}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line dataKey="inflow" stroke="#22c55e" strokeWidth={3} dot={false} name="ورودی" />
-                <Line dataKey="outflow" stroke="#f97316" strokeWidth={3} dot={false} name="خروجی" />
-              </LineChart>
-            )}
-            {tab === 'forecast' && (
-              <AreaChart data={forecast}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Area type="monotone" dataKey="waterLevel" stroke="#1d4ed8" fill="#bfdbfe" />
-              </AreaChart>
-            )}
-          </ResponsiveContainer>
+          {tab === 'level' && (
+            <TimeSeriesChart
+              className="h-full"
+              data={filteredSeries}
+              xKey="date"
+              lines={[{ dataKey: 'waterLevel', color: '#0ea5e9', name: 'تراز' }]}
+            />
+          )}
+          {tab === 'flow' && (
+            <TimeSeriesChart
+              className="h-full"
+              data={filteredSeries}
+              xKey="date"
+              legend
+              lines={[
+                { dataKey: 'inflow', color: '#22c55e', name: 'ورودی' },
+                { dataKey: 'outflow', color: '#f97316', name: 'خروجی' }
+              ]}
+            />
+          )}
+          {tab === 'forecast' && (
+            <TimeSeriesChart
+              className="h-full"
+              data={forecast}
+              xKey="date"
+              lines={[{ dataKey: 'waterLevel', color: '#1d4ed8', type: 'area', name: 'پیش‌بینی تراز' }]}
+            />
+          )}
         </div>
       </div>
 

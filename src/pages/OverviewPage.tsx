@@ -3,12 +3,17 @@ import { useDashboardData } from '../context/DataContext';
 import KpiCard from '../components/KpiCard';
 import AlertsList from '../components/AlertsList';
 import DataTable from '../components/DataTable';
-import { Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import TimeSeriesChart from '../components/TimeSeriesChart';
 import { FiActivity, FiDroplet, FiLayers, FiTrendingUp, FiZap } from 'react-icons/fi';
 
 const OverviewPage: React.FC = () => {
   const { semnanMonthlyStorage, cumulativeRainfall, provinces, alerts, semnanAggregate, nationalTotals } = useDashboardData();
   const [metric, setMetric] = useState<'storage' | 'inflow' | 'outflow'>('storage');
+  const metricLabels: Record<'storage' | 'inflow' | 'outflow', string> = {
+    storage: 'ذخیره',
+    inflow: 'دبی ورودی',
+    outflow: 'دبی خروجی'
+  };
 
   const kpiCards = useMemo(
     () => [
@@ -83,29 +88,20 @@ const OverviewPage: React.FC = () => {
               ))}
             </div>
           </div>
-          <div className="mt-4 h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={semnanMonthlyStorage} margin={{ top: 10, bottom: 0, left: 0, right: 0 }}>
-                <defs>
-                  <linearGradient id="colorStorage" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#38bdf8" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip formatter={(value: number) => value.toLocaleString()} />
-                <Area
-                  type="monotone"
-                  dataKey={metric}
-                  stroke="#0ea5e9"
-                  fill="url(#colorStorage)"
-                  strokeWidth={3}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          <TimeSeriesChart
+            className="mt-4 h-72"
+            data={semnanMonthlyStorage}
+            xKey="month"
+            lines={[
+              {
+                dataKey: metric,
+                color: '#0ea5e9',
+                type: 'area',
+                name: metricLabels[metric]
+              }
+            ]}
+            tooltipFormatter={(value) => value.toLocaleString()}
+          />
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
           <div className="flex items-center justify-between">
@@ -114,17 +110,12 @@ const OverviewPage: React.FC = () => {
               <p className="text-xs text-slate-500">۱۲ ماه اخیر</p>
             </div>
           </div>
-          <div className="mt-4 h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={cumulativeRainfall}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="rainfall" stroke="#0284c7" strokeWidth={3} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <TimeSeriesChart
+            className="mt-4 h-72"
+            data={cumulativeRainfall}
+            xKey="month"
+            lines={[{ dataKey: 'rainfall', color: '#0284c7', name: 'بارش تجمعی' }]}
+          />
         </div>
       </div>
 

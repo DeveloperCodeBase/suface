@@ -2,7 +2,7 @@ import React from 'react';
 import { useDashboardData } from '../context/DataContext';
 import KpiCard from '../components/KpiCard';
 import DataTable from '../components/DataTable';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import BarChartCard from '../components/BarChartCard';
 
 const SemnanPage: React.FC = () => {
   const { dams, semnanAggregate, semnanMarkers, monthlyRainSemnan } = useDashboardData();
@@ -40,34 +40,23 @@ const SemnanPage: React.FC = () => {
           </div>
         </div>
         <div className="space-y-6">
-          <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-            <h3 className="text-lg font-semibold text-slate-800 dark:text-white">مقایسه درصد پرشدگی سدها</h3>
-            <div className="mt-4 h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={semnanDams}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" interval={0} angle={-10} textAnchor="end" height={80} />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="fillPercent" fill="#0ea5e9" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-            <h3 className="text-lg font-semibold text-slate-800 dark:text-white">حجم ذخیره سدهای استان</h3>
-            <div className="mt-4 h-60">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={semnanDams}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" interval={0} angle={-10} textAnchor="end" height={70} />
-                  <YAxis />
-                  <Tooltip formatter={(value: number) => `${value} میلیون مترمکعب`} />
-                  <Bar dataKey="storageVolumeMCM" fill="#14b8a6" radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
+          <BarChartCard
+            title="مقایسه درصد پرشدگی سدها"
+            data={semnanDams}
+            xKey="name"
+            height={320}
+            xAxisProps={{ interval: 0, angle: -10, textAnchor: 'end', height: 80 }}
+            bars={[{ dataKey: 'fillPercent', color: '#0ea5e9', name: 'درصد پرشدگی' }]}
+          />
+          <BarChartCard
+            title="حجم ذخیره سدهای استان"
+            data={semnanDams}
+            xKey="name"
+            height={260}
+            xAxisProps={{ interval: 0, angle: -10, textAnchor: 'end', height: 70 }}
+            tooltipFormatter={(value) => `${value} میلیون مترمکعب`}
+            bars={[{ dataKey: 'storageVolumeMCM', color: '#14b8a6', name: 'حجم ذخیره' }]}
+          />
         </div>
       </div>
 
@@ -90,20 +79,13 @@ const SemnanPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-        <h3 className="text-lg font-semibold text-slate-800 dark:text-white">بارش ماهانه ۱۲ ماه گذشته</h3>
-        <div className="mt-4 h-72">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={monthlyRainSemnan}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="rainfall" fill="#38bdf8" radius={[12, 12, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+      <BarChartCard
+        title="بارش ماهانه ۱۲ ماه گذشته"
+        data={monthlyRainSemnan}
+        xKey="month"
+        height={280}
+        bars={[{ dataKey: 'rainfall', color: '#38bdf8', name: 'بارش (میلی‌متر)' }]}
+      />
     </div>
   );
 };
