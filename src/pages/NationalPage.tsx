@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDashboardData } from '../context/DataContext';
 import KpiCard from '../components/KpiCard';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -7,6 +7,25 @@ const NationalPage: React.FC = () => {
   const { dams, provinces, nationalTrend, nationalTotals } = useDashboardData();
   const [sortKey, setSortKey] = useState<keyof (typeof provinces)[number]>('storage');
   const [direction, setDirection] = useState<'asc' | 'desc'>('desc');
+  const [activeMarker, setActiveMarker] = useState(dams[0]?.id ?? null);
+
+  useEffect(() => {
+    if (!activeMarker && dams[0]) {
+      setActiveMarker(dams[0].id);
+    }
+  }, [activeMarker, dams]);
+
+  const markers = useMemo(
+    () =>
+      dams.map((dam, idx) => ({
+        ...dam,
+        top: 18 + ((idx % 3) * 26),
+        left: 15 + ((idx * 13) % 60)
+      })),
+    [dams]
+  );
+
+  const selectedMarker = useMemo(() => markers.find((marker) => marker.id === activeMarker), [markers, activeMarker]);
 
   const sortedProvinces = useMemo(() => {
     return [...provinces].sort((a, b) => {
@@ -44,17 +63,28 @@ const NationalPage: React.FC = () => {
         <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-sky-50 p-6 shadow-sm dark:border-slate-700 dark:from-slate-900 dark:to-slate-900/60">
           <h3 className="text-lg font-semibold text-slate-800 dark:text-white">نقشه کشور – سدهای مهم</h3>
           <div className="relative mt-6 h-96 rounded-3xl bg-gradient-to-br from-slate-100 via-white to-slate-200 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800">
-            {dams.map((dam, idx) => (
-              <div
-                key={dam.id}
-                className="absolute flex w-40 flex-col rounded-2xl bg-white/90 px-3 py-2 text-xs shadow-lg backdrop-blur dark:bg-slate-900/80"
-                style={{ top: `${15 + (idx % 3) * 25}%`, left: `${10 + (idx * 12) % 70}%` }}
-              >
-                <span className="font-semibold text-slate-800 dark:text-white">{dam.name}</span>
-                <span className="text-slate-500">{dam.province}</span>
-                <span className="text-brand-600">{dam.fillPercent}% پرشدگی</span>
-              </div>
+            {markers.map((marker) => (
+              <button
+                key={marker.id}
+                onClick={() => setActiveMarker(marker.id)}
+                className={`absolute h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-lg transition ${
+                  activeMarker === marker.id ? 'bg-brand-500' : 'bg-slate-400'
+                }`}
+                style={{ top: `${marker.top}%`, left: `${marker.left}%` }}
+                aria-label={marker.name}
+              ></button>
             ))}
+            {selectedMarker && (
+              <div
+                className="absolute w-48 rounded-2xl bg-white/95 px-4 py-3 text-xs shadow-2xl backdrop-blur dark:bg-slate-900/90"
+                style={{ top: `calc(${selectedMarker.top}% + 30px)`, left: `calc(${selectedMarker.left}% - 80px)` }}
+              >
+                <p className="text-sm font-semibold text-slate-800 dark:text-white">{selectedMarker.name}</p>
+                <p className="text-slate-500">{selectedMarker.province}</p>
+                <p className="text-brand-600">{selectedMarker.fillPercent}% پرشدگی</p>
+                <p className="text-slate-500">دبی ورودی: {selectedMarker.inflow} مترمکعب/ثانیه</p>
+              </div>
+            )}
             <div className="absolute inset-8 rounded-[40px] border-2 border-dashed border-slate-300 dark:border-slate-700"></div>
           </div>
         </div>

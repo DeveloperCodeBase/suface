@@ -39,18 +39,34 @@ const SemnanPage: React.FC = () => {
             <div className="absolute inset-6 rounded-3xl border-2 border-dashed border-sky-200 dark:border-slate-700"></div>
           </div>
         </div>
-        <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">مقایسه درصد پرشدگی سدها</h3>
-          <div className="mt-4 h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={semnanDams}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" interval={0} angle={-10} textAnchor="end" height={80} />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="fillPercent" fill="#0ea5e9" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+        <div className="space-y-6">
+          <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
+            <h3 className="text-lg font-semibold text-slate-800 dark:text-white">مقایسه درصد پرشدگی سدها</h3>
+            <div className="mt-4 h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={semnanDams}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" interval={0} angle={-10} textAnchor="end" height={80} />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="fillPercent" fill="#0ea5e9" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
+            <h3 className="text-lg font-semibold text-slate-800 dark:text-white">حجم ذخیره سدهای استان</h3>
+            <div className="mt-4 h-60">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={semnanDams}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" interval={0} angle={-10} textAnchor="end" height={70} />
+                  <YAxis />
+                  <Tooltip formatter={(value: number) => `${value} میلیون مترمکعب`} />
+                  <Bar dataKey="storageVolumeMCM" fill="#14b8a6" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       </div>

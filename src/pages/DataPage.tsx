@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDashboardData } from '../context/DataContext';
 
 const columnsConfig = [
@@ -15,13 +15,31 @@ type MetricKey = 'inflow' | 'outflow' | 'level';
 const DataPage: React.FC = () => {
   const { dams, damSeries } = useDashboardData();
   const [selectedDam, setSelectedDam] = useState(dams[0]?.id ?? '');
-  const [days, setDays] = useState(30);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [visibleColumns, setVisibleColumns] = useState(columnsConfig.map((col) => col.key));
+
+  useEffect(() => {
+    const series = damSeries[selectedDam] ?? [];
+    if (series.length) {
+      setStartDate(series[0].date);
+      setEndDate(series[series.length - 1].date);
+    }
+  }, [damSeries, selectedDam]);
+
+  const rangeError = useMemo(() => startDate && endDate && startDate > endDate, [startDate, endDate]);
 
   const records = useMemo(() => {
     const series = damSeries[selectedDam] ?? [];
-    return series.slice(-days);
-  }, [damSeries, selectedDam, days]);
+    if (rangeError) {
+      return [];
+    }
+    return series.filter((record) => {
+      const afterStart = startDate ? record.date >= startDate : true;
+      const beforeEnd = endDate ? record.date <= endDate : true;
+      return afterStart && beforeEnd;
+    });
+  }, [damSeries, selectedDam, startDate, endDate, rangeError]);
 
   const stats = useMemo<null | Record<MetricKey, { min: number; max: number; avg: string }>>(() => {
     if (!records.length) return null;
@@ -81,17 +99,29 @@ const DataPage: React.FC = () => {
               ))}
             </select>
           </div>
-          <div>
-            <label className="text-xs text-slate-500">بازه زمانی (روز)</label>
-            <input
-              type="range"
-              min={7}
-              max={30}
-              value={days}
-              onChange={(e) => setDays(Number(e.target.value))}
-              className="mt-4 w-full"
-            />
-            <p className="mt-1 text-xs text-slate-500">نمایش {days} روز آخر</p>
+          <div className="space-y-3">
+            <label className="text-xs text-slate-500">بازه تاریخ</label>
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <p className="text-slate-400">از تاریخ</p>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="mt-1 w-full rounded-2xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
+                />
+              </div>
+              <div>
+                <p className="text-slate-400">تا تاریخ</p>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="mt-1 w-full rounded-2xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
+                />
+              </div>
+            </div>
+            {rangeError && <p className="text-[11px] text-rose-500">بازه انتخابی نامعتبر است.</p>}
           </div>
           <div>
             <label className="text-xs text-slate-500">ستون‌های قابل نمایش</label>
