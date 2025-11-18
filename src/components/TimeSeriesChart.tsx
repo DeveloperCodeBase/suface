@@ -29,7 +29,7 @@ interface TimeSeriesChartProps {
   legend?: boolean;
   className?: string;
   tooltipFormatter?: (value: number, name?: string) => React.ReactNode;
-  yTickFormatter?: (value: number) => React.ReactNode;
+  yTickFormatter?: (value: number) => string;
 }
 
 const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
@@ -49,8 +49,8 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   const renderTooltip = tooltipFormatter
     ? (value: any, name: string) => tooltipFormatter(Number(value), name)
     : undefined;
-
-  const renderYAxisTick = yTickFormatter ? { tickFormatter: yTickFormatter } : {};
+  const defaultYAxisTickFormatter = (value: number): string => value.toLocaleString('fa-IR');
+  const yAxisTickFormatter = yTickFormatter ?? defaultYAxisTickFormatter;
 
   return (
     <div className={className} style={{ height }}>
@@ -67,7 +67,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis dataKey={xKey} tickMargin={8} />
-            <YAxis {...renderYAxisTick} />
+            <YAxis tickFormatter={yAxisTickFormatter} />
             <Tooltip formatter={renderTooltip} />
             {legend && <Legend />}
             {lines.map((line, idx) =>
@@ -98,7 +98,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
           <LineChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis dataKey={xKey} tickMargin={8} />
-            <YAxis {...renderYAxisTick} />
+            <YAxis tickFormatter={yAxisTickFormatter} />
             <Tooltip formatter={renderTooltip} />
             {legend && <Legend />}
             {lines.map((line) => (
