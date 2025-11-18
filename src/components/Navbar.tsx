@@ -9,9 +9,9 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onMenuClick, theme, onThemeToggle }) => {
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-700 dark:bg-slate-900/80">
-      <div className="flex items-center justify-between px-4 py-3 sm:px-6 lg:px-10">
-        <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-700 dark:bg-slate-900/80">
+      <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-10">
+        <div className="flex items-center gap-3 text-right">
           <button
             onClick={onMenuClick}
             className="rounded-xl border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 lg:hidden"
@@ -19,13 +19,13 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick, theme, onThemeToggle }) =>
           >
             <FiMenu className="text-xl" />
           </button>
-          <div>
-            <p className="text-sm font-semibold text-brand-600">شبکه هوشمند ابتکار ویستا</p>
-            <p className="text-xs text-slate-500">سامانه هوشمند پایش و پیش‌بینی سدهای استان سمنان</p>
+          <div className="leading-tight">
+            <p className="text-sm font-semibold text-brand-600 sm:text-base">شبکه هوشمند ابتکار ویستا</p>
+            <p className="text-xs text-slate-500 sm:text-sm">سامانه هوشمند پایش و پیش‌بینی سدهای استان سمنان</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <div className="flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-100">
             <FiGlobe className="text-base" />
             <span>فارسی</span>

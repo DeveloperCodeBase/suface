@@ -49,7 +49,7 @@ const NationalPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <p className="text-sm text-slate-500">خلاصه وضعیت استان‌ها و سدهای مهم کشور</p>
-        <h1 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">نمای ملی منابع آب و سدها</h1>
+        <h1 className="page-title mt-2 text-slate-900 dark:text-white">نمای ملی منابع آب و سدها</h1>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -61,7 +61,7 @@ const NationalPage: React.FC = () => {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-sky-50 p-6 shadow-sm dark:border-slate-700 dark:from-slate-900 dark:to-slate-900/60">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">نقشه کشور – سدهای مهم</h3>
+          <h3 className="section-title text-slate-800 dark:text-white">نقشه کشور – سدهای مهم</h3>
           <div className="relative mt-6 h-96 rounded-3xl bg-gradient-to-br from-slate-100 via-white to-slate-200 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800">
             {markers.map((marker) => (
               <button
@@ -89,7 +89,7 @@ const NationalPage: React.FC = () => {
           </div>
         </div>
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">روند ذخیره کل کشور (۵ سال)</h3>
+          <h3 className="section-title text-slate-800 dark:text-white">روند ذخیره کل کشور (۵ سال)</h3>
           <TimeSeriesChart
             className="mt-4 h-80"
             data={nationalTrend}
@@ -101,7 +101,7 @@ const NationalPage: React.FC = () => {
 
       <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">جدول استان‌ها</h3>
+          <h3 className="section-title text-slate-800 dark:text-white">جدول استان‌ها</h3>
           <p className="text-xs text-slate-500">قابل مرتب‌سازی بر اساس هر ستون</p>
         </div>
         <div className="mt-4 overflow-x-auto">

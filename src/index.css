@@ -24,3 +24,26 @@ body {
 * {
   font-family: 'Vazirmatn', sans-serif;
 }
+
+@layer components {
+  .page-title {
+    font-size: clamp(1.5rem, 2vw, 2.4rem);
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .menu-title {
+    font-size: clamp(1rem, 1.4vw, 1.25rem);
+    font-weight: 600;
+  }
+
+  .menu-item {
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  }
+}

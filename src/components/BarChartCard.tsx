@@ -57,7 +57,7 @@ const BarChartCard: React.FC<BarChartCardProps> = ({
       }`}
     >
       <div>
-        <h3 className="text-lg font-semibold text-slate-800 dark:text-white">{title}</h3>
+        <h3 className="section-title text-slate-800 dark:text-white">{title}</h3>
         {subtitle && <p className="text-xs text-slate-500">{subtitle}</p>}
       </div>
       <div className="mt-4" style={{ height }}>

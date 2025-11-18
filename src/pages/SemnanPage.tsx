@@ -12,7 +12,7 @@ const SemnanPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <p className="text-sm text-slate-500">خلاصه وضعیت سدهای استان و بارش‌های اخیر</p>
-        <h1 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">داشبورد استان سمنان</h1>
+        <h1 className="page-title mt-2 text-slate-900 dark:text-white">داشبورد استان سمنان</h1>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -24,7 +24,7 @@ const SemnanPage: React.FC = () => {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-sky-50 to-white p-6 shadow-sm dark:border-slate-700 dark:from-slate-900 dark:to-slate-900/70">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">نقشه استان سمنان – محل سدها</h3>
+          <h3 className="section-title text-slate-800 dark:text-white">نقشه استان سمنان – محل سدها</h3>
           <div className="relative mt-6 h-80 rounded-3xl bg-gradient-to-br from-slate-100 via-white to-sky-100 p-4 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800">
             {semnanMarkers.map((marker) => (
               <div
@@ -61,7 +61,7 @@ const SemnanPage: React.FC = () => {
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-        <h3 className="text-lg font-semibold text-slate-800 dark:text-white">جدول سدهای استان سمنان</h3>
+        <h3 className="section-title text-slate-800 dark:text-white">جدول سدهای استان سمنان</h3>
         <div className="mt-4">
           <DataTable
             keyField="id"

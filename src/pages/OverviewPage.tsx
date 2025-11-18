@@ -50,7 +50,7 @@ const OverviewPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <p className="text-sm text-slate-500">نمای کلی وضعیت سدهای استان سمنان و کشور</p>
-        <h1 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">داشبورد کلان مدیریت منابع آب</h1>
+        <h1 className="page-title mt-2 text-slate-900 dark:text-white">داشبورد کلان مدیریت منابع آب</h1>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
@@ -63,7 +63,7 @@ const OverviewPage: React.FC = () => {
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-slate-800 dark:text-white">روند ذخیره و دبی استان سمنان</h2>
+              <h2 className="section-title text-slate-800 dark:text-white">روند ذخیره و دبی استان سمنان</h2>
               <p className="text-xs text-slate-500">۱۲ ماه اخیر</p>
             </div>
             <div className="flex gap-2 text-xs">
@@ -106,7 +106,7 @@ const OverviewPage: React.FC = () => {
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-slate-800 dark:text-white">بارش تجمعی استان</h2>
+              <h2 className="section-title text-slate-800 dark:text-white">بارش تجمعی استان</h2>
               <p className="text-xs text-slate-500">۱۲ ماه اخیر</p>
             </div>
           </div>

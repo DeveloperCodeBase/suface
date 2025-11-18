@@ -31,7 +31,7 @@ const DamDetailPage: React.FC = () => {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-sm text-slate-500">استان سمنان – حوضه آبریز {pilotDam.basin}</p>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{pilotDam.name}</h1>
+          <h1 className="page-title mt-2 text-slate-900 dark:text-white">{pilotDam.name}</h1>
         </div>
         <span className={`rounded-full px-4 py-2 text-sm font-semibold ${statusStyles[pilotDam.status]}`}>
           وضعیت: {pilotDam.status}
@@ -122,7 +122,7 @@ const DamDetailPage: React.FC = () => {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">بارش و تبخیر</h3>
+          <h3 className="section-title text-slate-800 dark:text-white">بارش و تبخیر</h3>
           <div className="mt-4 h-72">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={series.slice(-30)}>

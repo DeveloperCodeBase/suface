@@ -10,12 +10,12 @@ const SettingsPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <p className="text-sm text-slate-500">مدیریت تنظیمات نمایش و زبان</p>
-        <h1 className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">تنظیمات</h1>
+        <h1 className="page-title mt-2 text-slate-900 dark:text-white">تنظیمات</h1>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">ظاهر و زبان</h3>
+          <h3 className="section-title text-slate-800 dark:text-white">ظاهر و زبان</h3>
           <div className="mt-4 space-y-4 text-sm">
             <div className="flex items-center justify-between">
               <span>زبان فعال</span>
@@ -43,7 +43,7 @@ const SettingsPage: React.FC = () => {
         </div>
 
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">نمایش داده</h3>
+          <h3 className="section-title text-slate-800 dark:text-white">نمایش داده</h3>
           <div className="mt-4 space-y-4 text-sm">
             <label className="flex items-center justify-between">
               <span>به‌روزرسانی خودکار</span>
