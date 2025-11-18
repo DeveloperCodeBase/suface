@@ -1,0 +1,54 @@
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import OverviewPage from './pages/OverviewPage';
+import DamDetailPage from './pages/DamDetailPage';
+import SemnanPage from './pages/SemnanPage';
+import NationalPage from './pages/NationalPage';
+import AlertsPage from './pages/AlertsPage';
+import DataPage from './pages/DataPage';
+import SettingsPage from './pages/SettingsPage';
+import { DataProvider } from './context/DataContext';
+
+const App: React.FC = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', 'fa');
+    document.documentElement.setAttribute('dir', 'rtl');
+  }, []);
+
+  return (
+    <DataProvider>
+      <div className={`min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white`}>
+        <Navbar
+          onMenuClick={() => setSidebarOpen((prev) => !prev)}
+          theme={theme}
+          onThemeToggle={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
+        />
+        <div className="flex">
+          <Sidebar isOpen={sidebarOpen} />
+          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:pr-6 lg:mr-64">
+            <Routes>
+              <Route path="/" element={<OverviewPage />} />
+              <Route path="/pilot-dam" element={<DamDetailPage />} />
+              <Route path="/semnan" element={<SemnanPage />} />
+              <Route path="/national" element={<NationalPage />} />
+              <Route path="/alerts" element={<AlertsPage />} />
+              <Route path="/data" element={<DataPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Routes>
+          </main>
+        </div>
+      </div>
+    </DataProvider>
+  );
+};
+
+export default App;
