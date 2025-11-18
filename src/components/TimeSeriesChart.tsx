@@ -21,6 +21,8 @@ interface SeriesConfig {
   dot?: boolean;
 }
 
+const defaultYAxisTickFormatter = (value: number): string => value.toLocaleString('fa-IR');
+
 interface TimeSeriesChartProps {
   data: Record<string, any>[];
   lines: SeriesConfig[];
@@ -49,7 +51,6 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   const renderTooltip = tooltipFormatter
     ? (value: any, name: string) => tooltipFormatter(Number(value), name)
     : undefined;
-  const defaultYAxisTickFormatter = (value: number): string => value.toLocaleString('fa-IR');
   const yAxisTickFormatter = yTickFormatter ?? defaultYAxisTickFormatter;
 
   return (
