@@ -48,7 +48,8 @@ const BarChartCard: React.FC<BarChartCardProps> = ({
   tooltipFormatter
 }) => {
   const renderTooltip = tooltipFormatter
-    ? (value: any, name: string) => tooltipFormatter(Number(value), name)
+    ? (value: any, name: string, _entry: any, _index: number) =>
+        tooltipFormatter(Number(value), name)
     : undefined;
 
   const { tickFormatter, ...restXAxisProps } = xAxisProps ?? {};
@@ -79,7 +80,7 @@ const BarChartCard: React.FC<BarChartCardProps> = ({
             <Tooltip
               formatter={renderTooltip}
               labelFormatter={(value) =>
-                axisTickFormatter(value as string | number)
+                axisTickFormatter(value as string | number, 0)
               }
             />
             {legend && <Legend />}
