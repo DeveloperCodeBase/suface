@@ -12,7 +12,7 @@ import SettingsPage from './pages/SettingsPage';
 import { DataProvider } from './context/DataContext';
 
 const App: React.FC = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const location = useLocation();
 
@@ -26,18 +26,18 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setSidebarOpen(false);
+    setIsNavOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
-    if (!sidebarOpen) {
+    if (!isNavOpen) {
       document.body.style.removeProperty('overflow');
       return;
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setSidebarOpen(false);
+        setIsNavOpen(false);
       }
     };
 
@@ -47,29 +47,38 @@ const App: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.removeProperty('overflow');
     };
-  }, [sidebarOpen]);
+  }, [isNavOpen]);
 
   return (
     <DataProvider>
-      <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
-        <Navbar
-          onMenuClick={() => setSidebarOpen((prev) => !prev)}
-          theme={theme}
-          onThemeToggle={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
-          isMenuOpen={sidebarOpen}
-        />
-        <div className="flex w-full justify-center">
-          <div className="relative flex w-full max-w-[1440px] flex-row-reverse gap-0 px-4 pb-10 pt-6 sm:px-6 lg:px-8">
-            <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-            {sidebarOpen && (
+      <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white" dir="rtl">
+        <div className="flex min-h-screen">
+          <aside className="relative hidden w-72 flex-shrink-0 flex-col border-l border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 lg:flex">
+            <Sidebar variant="desktop" />
+          </aside>
+
+          {isNavOpen && (
+            <>
               <div
                 role="presentation"
-                className="fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-sm lg:hidden"
-                onClick={() => setSidebarOpen(false)}
+                className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm lg:hidden"
+                onClick={() => setIsNavOpen(false)}
               />
-            )}
-            <main className="flex-1 lg:pr-8">
-              <div className="space-y-8">
+              <aside className="fixed inset-y-0 right-0 z-50 flex w-72 flex-col border-l border-slate-200/70 bg-white/95 shadow-xl dark:border-slate-800 dark:bg-slate-900 lg:hidden">
+                <Sidebar variant="mobile" onClose={() => setIsNavOpen(false)} />
+              </aside>
+            </>
+          )}
+
+          <div className="flex min-h-screen flex-1 flex-col">
+            <Navbar
+              onMenuClick={() => setIsNavOpen((prev) => !prev)}
+              theme={theme}
+              onThemeToggle={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
+              isMenuOpen={isNavOpen}
+            />
+            <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">
+              <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-10">
                 <Routes>
                   <Route path="/" element={<OverviewPage />} />
                   <Route path="/pilot-dam" element={<DamDetailPage />} />

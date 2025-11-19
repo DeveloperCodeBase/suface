@@ -17,7 +17,7 @@ export const IRAN_VIEW: MapViewConfig = {
   center: [32, 53],
   zoom: 5,
   minZoom: 4,
-  maxZoom: 8,
+  maxZoom: 18,
   bounds: {
     lat: [24, 40],
     lng: [44, 63]
@@ -30,7 +30,7 @@ export const SEMNAN_VIEW: MapViewConfig = {
   center: [35.6, 54.4],
   zoom: 7,
   minZoom: 6,
-  maxZoom: 11,
+  maxZoom: 18,
   bounds: {
     lat: [34.5, 37.5],
     lng: [52, 56.5]

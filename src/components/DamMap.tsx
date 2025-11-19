@@ -30,9 +30,11 @@ const statusColors: Record<DamLocation['status'], { stroke: string; fill: string
 const MapViewSync: React.FC<{ view: MapViewConfig }> = ({ view }) => {
   const map = useMap();
   React.useEffect(() => {
+    const minZoom = view.minZoom ?? 4;
+    const maxZoom = view.maxZoom ?? 18;
     map.setView(view.center, view.zoom, { animate: true });
-    map.setMinZoom(view.minZoom ?? 4);
-    map.setMaxZoom(view.maxZoom ?? 12);
+    map.setMinZoom(minZoom);
+    map.setMaxZoom(maxZoom);
   }, [map, view]);
   return null;
 };
@@ -61,6 +63,8 @@ const DamMap: React.FC<DamMapProps> = ({
   const damsMissingCoords = useMemo(() => dams.filter((dam) => dam.lat == null || dam.lng == null), [dams]);
   const activeDamId = highlightDamId ?? internalDam ?? damsWithCoords[0]?.id;
   const activeDam = damsWithCoords.find((dam) => dam.id === activeDamId);
+  const minZoom = view.minZoom ?? 4;
+  const maxZoom = view.maxZoom ?? 18;
   const bounds = useMemo<LatLngBoundsExpression>(
     () => [
       [view.bounds.lat[0], view.bounds.lng[0]],
@@ -75,7 +79,7 @@ const DamMap: React.FC<DamMapProps> = ({
   };
 
   return (
-    <div className={clsx('space-y-4', className)}>
+    <div className={clsx('space-y-4 w-full', className)}>
       <div className="rounded-[32px] border border-slate-200 bg-white/85 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
         <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
           <div>
@@ -91,12 +95,13 @@ const DamMap: React.FC<DamMapProps> = ({
             key={view.id}
             center={view.center}
             zoom={view.zoom}
-            minZoom={view.minZoom}
-            maxZoom={view.maxZoom}
+            minZoom={minZoom}
+            maxZoom={maxZoom}
             zoomControl={false}
             scrollWheelZoom
             bounds={bounds}
             maxBounds={bounds}
+            maxBoundsViscosity={0.6}
             className="h-full w-full"
           >
             <MapViewSync view={view} />
@@ -104,6 +109,8 @@ const DamMap: React.FC<DamMapProps> = ({
             <TileLayer
               attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              maxZoom={19}
+              maxNativeZoom={19}
             />
             <ZoomControl position="topleft" />
             {damsWithCoords.map((dam) => {

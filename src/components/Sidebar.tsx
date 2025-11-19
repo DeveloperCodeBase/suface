@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
@@ -22,27 +23,32 @@ const navItems = [
 ];
 
 interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
+  variant: 'desktop' | 'mobile';
+  onClose?: () => void;
 }
 
 const focusableSelectors = 'a[href], button:not([disabled]), [tabindex="0"]';
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const sidebarRef = useRef<HTMLDivElement>(null);
+const Sidebar: React.FC<SidebarProps> = ({ variant, onClose }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isOpen) return;
-    const sidebar = sidebarRef.current;
-    if (!sidebar) return;
+    if (variant !== 'mobile') return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const focusable = sidebar.querySelectorAll<HTMLElement>(focusableSelectors);
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    first?.focus();
+    const focusable = container.querySelectorAll<HTMLElement>(focusableSelectors);
+    focusable[0]?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose?.();
+        return;
+      }
+
       if (event.key === 'Tab' && focusable.length > 1) {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
         if (event.shiftKey && document.activeElement === first) {
           event.preventDefault();
           last?.focus();
@@ -51,59 +57,58 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           first?.focus();
         }
       }
-
-      if (event.key === 'Escape') {
-        onClose();
-      }
     };
 
-    sidebar.addEventListener('keydown', handleKeyDown);
+    container.addEventListener('keydown', handleKeyDown);
     return () => {
-      sidebar.removeEventListener('keydown', handleKeyDown);
+      container.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [variant, onClose]);
 
   return (
-    <aside
-      ref={sidebarRef}
-      tabIndex={-1}
-      className={`fixed inset-y-0 right-0 z-40 w-72 max-w-xs transform border-l border-slate-200 bg-white/95 px-5 py-6 shadow-2xl transition-transform duration-300 ease-out dark:border-slate-800 dark:bg-slate-900/95 lg:sticky lg:top-24 lg:flex lg:h-[calc(100vh-96px)] lg:w-72 lg:flex-col lg:overflow-y-auto lg:rounded-[32px] lg:border lg:border-slate-200/70 lg:bg-white/80 lg:px-6 lg:py-8 lg:shadow-sm lg:dark:border-slate-800/70 lg:dark:bg-slate-900/70 lg:translate-x-0 ${
-        isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'
-      }`}
-      role={isOpen ? 'dialog' : undefined}
-      aria-modal={isOpen || undefined}
-      aria-label="منوی ناوبری"
+    <div
+      ref={containerRef}
+      className={clsx(
+        'flex h-full flex-col gap-6 overflow-y-auto bg-white/90 text-slate-700 dark:bg-slate-900/80 dark:text-slate-100',
+        variant === 'desktop'
+          ? 'w-full px-6 py-8'
+          : 'w-full px-5 py-6'
+      )}
     >
-      <div className="flex items-center justify-between lg:hidden">
-        <p className="menu-title text-slate-700 dark:text-slate-200">منوی اصلی</p>
-        <button
-          onClick={onClose}
-          className="rounded-full border border-slate-200 p-2 text-slate-500 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
-          aria-label="بستن منو"
-        >
-          <FiX className="text-lg" />
-        </button>
-      </div>
-      <nav className="mt-4 space-y-1 text-sm font-medium lg:mt-0">
+      {variant === 'mobile' && (
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-semibold">منوی اصلی</p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+            aria-label="بستن منو"
+          >
+            <FiX className="text-lg" />
+          </button>
+        </div>
+      )}
+      <nav className="space-y-1 text-sm font-medium">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
-            onClick={onClose}
+            onClick={variant === 'mobile' ? onClose : undefined}
             className={({ isActive }) =>
-              `flex flex-row-reverse items-center gap-3 rounded-2xl px-4 py-3 text-right transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 ${
+              clsx(
+                'flex flex-row-reverse items-center gap-3 rounded-2xl px-4 py-3 text-base leading-6 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500',
                 isActive
-                  ? 'bg-brand-50 text-brand-700 shadow-sm dark:bg-brand-500/15 dark:text-brand-100'
+                  ? 'bg-brand-50 text-brand-700 shadow-sm dark:bg-brand-500/20 dark:text-brand-50'
                   : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'
-              }`
+              )
             }
           >
-            <span className="text-xl text-slate-400">{item.icon}</span>
-            <span className="menu-item text-base font-semibold leading-6">{item.label}</span>
+            <span className="text-xl text-slate-400 dark:text-slate-300">{item.icon}</span>
+            <span className="flex-1 text-right font-semibold">{item.label}</span>
           </NavLink>
         ))}
       </nav>
-    </aside>
+    </div>
   );
 };
 
