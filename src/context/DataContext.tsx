@@ -12,13 +12,14 @@ import {
   nationalTrend,
   provinces,
   ProvinceSummary,
-  semnanDamMarkers,
   semnanMonthlyStorage
 } from '../data/mockData';
+import { ALERTS } from '../config/alerts';
 
 interface DataContextValue {
   dams: Dam[];
   alerts: AlertItem[];
+  structuredAlerts: typeof ALERTS;
   provinces: ProvinceSummary[];
   damSeries: typeof damSeries;
   damForecast: typeof damForecast;
@@ -26,7 +27,6 @@ interface DataContextValue {
   cumulativeRainfall: typeof cumulativeRainfall;
   monthlyRainSemnan: typeof monthlyRainSemnan;
   nationalTrend: typeof nationalTrend;
-  semnanMarkers: typeof semnanDamMarkers;
   semnanAggregate: ReturnType<typeof calculateSemnanAggregate>;
   nationalTotals: {
     totalStorage: number;
@@ -124,6 +124,7 @@ export const DataProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const value: DataContextValue = {
     dams: damState,
     alerts: alertState,
+    structuredAlerts: ALERTS,
     provinces: provinceRows,
     damSeries,
     damForecast,
@@ -131,7 +132,6 @@ export const DataProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     cumulativeRainfall,
     monthlyRainSemnan,
     nationalTrend,
-    semnanMarkers: semnanDamMarkers,
     semnanAggregate,
     nationalTotals
   };

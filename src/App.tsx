@@ -53,9 +53,10 @@ const App: React.FC = () => {
     <DataProvider>
       <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white">
         <Navbar
-          onMenuClick={() => setSidebarOpen(true)}
+          onMenuClick={() => setSidebarOpen((prev) => !prev)}
           theme={theme}
           onThemeToggle={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
+          isMenuOpen={sidebarOpen}
         />
         <div className="relative flex w-full">
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />

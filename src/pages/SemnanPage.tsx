@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDashboardData } from '../context/DataContext';
 import KpiCard from '../components/KpiCard';
 import DataTable from '../components/DataTable';
 import BarChartCard from '../components/BarChartCard';
+import DamMap from '../components/DamMap';
+import { SEMNAN_DAMS } from '../config/dams';
+import { SEMNAN_VIEW } from '../config/maps';
 
 const SemnanPage: React.FC = () => {
-  const { dams, semnanAggregate, semnanMarkers, monthlyRainSemnan } = useDashboardData();
+  const { dams, semnanAggregate, monthlyRainSemnan } = useDashboardData();
   const semnanDams = dams.filter((dam) => dam.province === 'سمنان');
+  const [activeMapDam, setActiveMapDam] = useState<string | undefined>(SEMNAN_DAMS[0]?.id);
 
   return (
     <div className="space-y-6">
@@ -23,22 +27,13 @@ const SemnanPage: React.FC = () => {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-sky-50 to-white p-6 shadow-sm dark:border-slate-700 dark:from-slate-900 dark:to-slate-900/70">
-          <h3 className="section-title text-slate-800 dark:text-white">نقشه استان سمنان – محل سدها</h3>
-          <div className="relative mt-6 h-80 rounded-3xl bg-gradient-to-br from-slate-100 via-white to-sky-100 p-4 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800">
-            {semnanMarkers.map((marker) => (
-              <div
-                key={marker.id}
-                className="absolute flex flex-col items-end rounded-xl bg-white/80 px-3 py-2 text-xs shadow-lg backdrop-blur dark:bg-slate-900/80"
-                style={{ top: `${marker.top}%`, right: `${marker.right}%` }}
-              >
-                <span className="font-semibold text-slate-800 dark:text-white">{marker.name}</span>
-                <span className="text-brand-600">{marker.fillPercent}%</span>
-              </div>
-            ))}
-            <div className="absolute inset-6 rounded-3xl border-2 border-dashed border-sky-200 dark:border-slate-700"></div>
-          </div>
-        </div>
+        <DamMap
+          view={SEMNAN_VIEW}
+          dams={SEMNAN_DAMS}
+          highlightDamId={activeMapDam}
+          onDamSelect={setActiveMapDam}
+          legendTitle="کاربری و وضعیت سدهای استان"
+        />
         <div className="space-y-6">
           <BarChartCard
             title="مقایسه درصد پرشدگی سدها"

@@ -281,10 +281,3 @@ export const nationalKpis = () => {
   };
 };
 
-export const semnanDamMarkers = damSeeds
-  .filter((dam) => dam.province === 'سمنان')
-  .map((dam, idx) => ({
-    ...dam,
-    top: 30 + idx * 20,
-    right: 20 + idx * 18
-  }));
