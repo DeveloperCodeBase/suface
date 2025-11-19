@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -49,28 +50,17 @@ const App: React.FC = () => {
     };
   }, [isNavOpen]);
 
+  const isBrowser = typeof document !== 'undefined';
+
   return (
     <DataProvider>
-      <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white" dir="rtl">
-        <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row-reverse">
-          <aside className="sticky top-0 hidden h-screen w-72 flex-shrink-0 flex-col border-l border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 lg:z-[900] lg:flex">
+      <div className="isolate min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white" dir="rtl">
+        <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row">
+          <aside className="sticky top-0 hidden h-screen w-72 flex-shrink-0 flex-col border-l border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 lg:flex">
             <Sidebar variant="desktop" />
           </aside>
 
-          {isNavOpen && (
-            <>
-              <div
-                role="presentation"
-                className="fixed inset-0 z-[1200] bg-slate-950/60 backdrop-blur-sm lg:hidden"
-                onClick={() => setIsNavOpen(false)}
-              />
-              <aside className="fixed inset-y-0 right-0 z-[1300] flex w-72 flex-col border-l border-slate-200/70 bg-white/95 shadow-xl dark:border-slate-800 dark:bg-slate-900 lg:hidden">
-                <Sidebar variant="mobile" onClose={() => setIsNavOpen(false)} />
-              </aside>
-            </>
-          )}
-
-          <div className="flex min-h-screen flex-1 flex-col bg-transparent lg:order-1" style={{ minWidth: 0 }}>
+          <div className="flex min-h-screen flex-1 flex-col bg-transparent" style={{ minWidth: 0 }}>
             <Navbar
               onMenuClick={() => setIsNavOpen((prev) => !prev)}
               theme={theme}
@@ -92,6 +82,21 @@ const App: React.FC = () => {
             </main>
           </div>
         </div>
+        {isNavOpen && isBrowser
+          ? createPortal(
+              <>
+                <div
+                  role="presentation"
+                  className="fixed inset-0 z-[9998] bg-slate-950/60 backdrop-blur-sm lg:hidden"
+                  onClick={() => setIsNavOpen(false)}
+                />
+                <aside className="fixed inset-y-0 right-0 z-[9999] flex w-72 flex-col border-l border-slate-200/70 bg-white/95 shadow-xl dark:border-slate-800 dark:bg-slate-900 lg:hidden">
+                  <Sidebar variant="mobile" onClose={() => setIsNavOpen(false)} />
+                </aside>
+              </>,
+              document.body
+            )
+          : null}
       </div>
     </DataProvider>
   );

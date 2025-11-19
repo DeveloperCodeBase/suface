@@ -39,7 +39,7 @@ const DamDetailPage: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
         <KpiCard label="تراز فعلی (متر)" value={pilotDam.currentWaterLevel} />
         <KpiCard label="حجم ذخیره (میلیون مترمکعب)" value={pilotDam.storageVolumeMCM} />
         <KpiCard label="درصد پرشدگی" value={`${pilotDam.fillPercent}%`} />
@@ -124,8 +124,8 @@ const DamDetailPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-3 xl:items-start">
-        <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 xl:col-span-2">
+      <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
+        <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2">
           <h3 className="section-title text-slate-800 dark:text-white">بارش و تبخیر</h3>
           <div className="mt-4" style={{ minHeight: 'clamp(240px, 40vh, 360px)' }}>
             <ResponsiveContainer width="100%" height="100%">

@@ -119,7 +119,7 @@ const DataPage: React.FC = () => {
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div className="min-w-0">
             <label className="text-xs text-slate-500">انتخاب سد</label>
             <select
