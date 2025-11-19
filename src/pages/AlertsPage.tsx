@@ -5,6 +5,7 @@ import { AlertSeverity } from '../config/alerts';
 import { ALL_DAMS, NATIONAL_DAMS, SEMNAN_DAMS } from '../config/dams';
 import DamMap from '../components/DamMap';
 import { IRAN_VIEW, SEMNAN_VIEW } from '../config/maps';
+import { dayjs } from '../utils/jalali';
 
 const severityTokens: Record<AlertSeverity, { label: string; className: string }> = {
   info: { label: 'اطلاع', className: 'bg-sky-100 text-sky-700' },
@@ -50,7 +51,9 @@ const AlertsPage: React.FC = () => {
       const date = alert.timestamp.split(' ')[0];
       grouped[date] = (grouped[date] || 0) + 1;
     });
-    return Object.entries(grouped).map(([date, count]) => ({ date, count }));
+    return Object.entries(grouped)
+      .sort((a, b) => dayjs(a[0]).valueOf() - dayjs(b[0]).valueOf())
+      .map(([date, count]) => ({ date, count }));
   }, [liveAlerts]);
 
   return (

@@ -5,6 +5,7 @@ import AlertsList from '../components/AlertsList';
 import DataTable from '../components/DataTable';
 import TimeSeriesChart from '../components/TimeSeriesChart';
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { formatToJalali, formatToJalaliAxis } from '../utils/jalali';
 
 const statusStyles: Record<string, string> = {
   عادی: 'bg-emerald-100 text-emerald-700',
@@ -127,9 +128,9 @@ const DamDetailPage: React.FC = () => {
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={series.slice(-30)}>
                 <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
+                <XAxis dataKey="date" tickFormatter={(value) => formatToJalaliAxis(String(value))} />
                 <YAxis />
-                <Tooltip />
+                <Tooltip labelFormatter={(value) => formatToJalali(value as string)} />
                 <Legend />
                 <Bar dataKey="rainfall" fill="#0ea5e9" name="بارش" />
                 <Line type="monotone" dataKey="evaporation" stroke="#f43f5e" name="تبخیر" />
@@ -143,7 +144,7 @@ const DamDetailPage: React.FC = () => {
       <DataTable
         keyField="date"
         columns={[
-          { header: 'تاریخ', accessor: 'date' },
+          { header: 'تاریخ', accessor: (row) => formatToJalali(row.date) },
           { header: 'دبی ورودی', accessor: 'inflow' },
           { header: 'دبی خروجی', accessor: 'outflow' },
           { header: 'تراز', accessor: 'waterLevel' },

@@ -11,7 +11,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ onMenuClick, theme, onThemeToggle, isMenuOpen }) => {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-700 dark:bg-slate-900/80">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6 lg:px-10">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6 lg:px-8">
         <div className="flex w-full flex-row-reverse items-center justify-between gap-3 text-right sm:w-auto sm:flex-row">
           <div className="leading-tight">
             <p className="text-sm font-semibold text-brand-600 sm:text-base">شبکه هوشمند ابتکار ویستا</p>

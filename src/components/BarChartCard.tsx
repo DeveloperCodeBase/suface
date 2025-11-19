@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 
 import type { XAxisProps, YAxisProps } from 'recharts';
+import { formatToJalaliAxis } from '../utils/jalali';
 
 interface BarConfig {
   dataKey: string;
@@ -50,6 +51,10 @@ const BarChartCard: React.FC<BarChartCardProps> = ({
     ? (value: any, name: string) => tooltipFormatter(Number(value), name)
     : undefined;
 
+  const { tickFormatter, ...restXAxisProps } = xAxisProps ?? {};
+  const axisTickFormatter = (value: string | number) =>
+    tickFormatter ? tickFormatter(value) : formatToJalaliAxis(value);
+
   return (
     <div
       className={`rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 ${
@@ -64,9 +69,17 @@ const BarChartCard: React.FC<BarChartCardProps> = ({
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={xKey} tickMargin={8} {...xAxisProps} />
+            <XAxis
+              dataKey={xKey}
+              tickMargin={8}
+              tickFormatter={axisTickFormatter}
+              {...restXAxisProps}
+            />
             <YAxis {...yAxisProps} />
-            <Tooltip formatter={renderTooltip} />
+            <Tooltip
+              formatter={renderTooltip}
+              labelFormatter={(value) => axisTickFormatter(value as string | number)}
+            />
             {legend && <Legend />}
             {bars.map((bar) => (
               <Bar

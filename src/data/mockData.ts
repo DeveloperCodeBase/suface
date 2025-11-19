@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { dayjs } from '../utils/jalali';
 
 export type DamStatus = 'عادی' | 'هشدار' | 'بحرانی';
 
@@ -170,12 +170,12 @@ export const damForecast: Record<string, DamForecastRecord[]> = dams.reduce((acc
 }, {} as Record<string, DamForecastRecord[]>);
 
 export const semnanMonthlyStorage = Array.from({ length: 12 }).map((_, idx) => {
-  const month = dayjs().subtract(11 - idx, 'month');
+  const month = dayjs().subtract(11 - idx, 'month').startOf('month');
   const storage = 500 + Math.sin(idx / 2) * 60 + Math.random() * 20;
   const inflow = 180 + Math.cos(idx / 2) * 30;
   const outflow = 150 + Math.sin(idx / 3) * 20;
   return {
-    month: month.format('YYYY-MM'),
+    month: month.format('YYYY-MM-DD'),
     storage: Number(storage.toFixed(0)),
     inflow: Number(inflow.toFixed(0)),
     outflow: Number(outflow.toFixed(0))
@@ -183,9 +183,9 @@ export const semnanMonthlyStorage = Array.from({ length: 12 }).map((_, idx) => {
 });
 
 export const cumulativeRainfall = Array.from({ length: 12 }).map((_, idx) => {
-  const month = dayjs().subtract(11 - idx, 'month');
+  const month = dayjs().subtract(11 - idx, 'month').startOf('month');
   return {
-    month: month.format('YYYY-MM'),
+    month: month.format('YYYY-MM-DD'),
     rainfall: Number((200 + idx * 8 + Math.random() * 15).toFixed(0))
   };
 });
@@ -201,17 +201,17 @@ export const provinces: ProvinceSummary[] = [
 ];
 
 export const nationalTrend = Array.from({ length: 5 }).map((_, idx) => {
-  const year = dayjs().subtract(4 - idx, 'year').format('YYYY');
+  const year = dayjs().subtract(4 - idx, 'year').startOf('year');
   return {
-    year,
+    year: year.format('YYYY-MM-DD'),
     storage: 18000 + idx * 450 - Math.random() * 300
   };
 });
 
 export const monthlyRainSemnan = Array.from({ length: 12 }).map((_, idx) => {
-  const month = dayjs().subtract(11 - idx, 'month');
+  const month = dayjs().subtract(11 - idx, 'month').startOf('month');
   return {
-    month: month.format('MMM'),
+    month: month.format('YYYY-MM-DD'),
     rainfall: Number((25 + Math.random() * 20).toFixed(1))
   };
 });

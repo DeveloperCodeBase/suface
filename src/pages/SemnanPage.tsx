@@ -6,6 +6,7 @@ import BarChartCard from '../components/BarChartCard';
 import DamMap from '../components/DamMap';
 import { SEMNAN_DAMS } from '../config/dams';
 import { SEMNAN_VIEW } from '../config/maps';
+import { formatToJalaliMonth } from '../utils/jalali';
 
 const SemnanPage: React.FC = () => {
   const { dams, semnanAggregate, monthlyRainSemnan } = useDashboardData();
@@ -79,6 +80,7 @@ const SemnanPage: React.FC = () => {
         data={monthlyRainSemnan}
         xKey="month"
         height={280}
+        xAxisProps={{ tickFormatter: (value) => formatToJalaliMonth(value as string) }}
         bars={[{ dataKey: 'rainfall', color: '#38bdf8', name: 'بارش (میلی‌متر)' }]}
       />
     </div>

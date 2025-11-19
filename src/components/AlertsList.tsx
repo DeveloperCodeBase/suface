@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertItem } from '../data/mockData';
 import { FiAlertCircle } from 'react-icons/fi';
+import { formatToJalaliDateTime } from '../utils/jalali';
 
 interface AlertsListProps {
   alerts: AlertItem[];
@@ -28,7 +29,7 @@ const AlertsList: React.FC<AlertsListProps> = ({ alerts, title = 'هشدارها
               <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${levelColors[alert.level]}`}>
                 {alert.level}
               </span>
-              <span className="text-slate-400">{alert.timestamp}</span>
+              <span className="text-slate-400">{formatToJalaliDateTime(alert.timestamp)}</span>
             </div>
             <p className="mt-2 font-semibold text-slate-800 dark:text-slate-100">{alert.damName}</p>
             <p className="mt-1 text-slate-500 dark:text-slate-300">{alert.message}</p>

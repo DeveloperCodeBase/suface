@@ -58,28 +58,30 @@ const App: React.FC = () => {
           onThemeToggle={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
           isMenuOpen={sidebarOpen}
         />
-        <div className="relative flex w-full">
-          <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-          {sidebarOpen && (
-            <div
-              role="presentation"
-              className="fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-sm lg:hidden"
-              onClick={() => setSidebarOpen(false)}
-            />
-          )}
-          <main className="flex-1 px-4 pb-10 pt-6 sm:px-6 lg:px-10">
-            <div className="mx-auto w-full max-w-7xl space-y-8">
-              <Routes>
-                <Route path="/" element={<OverviewPage />} />
-                <Route path="/pilot-dam" element={<DamDetailPage />} />
-                <Route path="/semnan" element={<SemnanPage />} />
-                <Route path="/national" element={<NationalPage />} />
-                <Route path="/alerts" element={<AlertsPage />} />
-                <Route path="/data" element={<DataPage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-              </Routes>
-            </div>
-          </main>
+        <div className="flex w-full justify-center">
+          <div className="relative flex w-full max-w-[1440px] flex-row-reverse gap-0 px-4 pb-10 pt-6 sm:px-6 lg:px-8">
+            <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+            {sidebarOpen && (
+              <div
+                role="presentation"
+                className="fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-sm lg:hidden"
+                onClick={() => setSidebarOpen(false)}
+              />
+            )}
+            <main className="flex-1 lg:pr-8">
+              <div className="space-y-8">
+                <Routes>
+                  <Route path="/" element={<OverviewPage />} />
+                  <Route path="/pilot-dam" element={<DamDetailPage />} />
+                  <Route path="/semnan" element={<SemnanPage />} />
+                  <Route path="/national" element={<NationalPage />} />
+                  <Route path="/alerts" element={<AlertsPage />} />
+                  <Route path="/data" element={<DataPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                </Routes>
+              </div>
+            </main>
+          </div>
         </div>
       </div>
     </DataProvider>

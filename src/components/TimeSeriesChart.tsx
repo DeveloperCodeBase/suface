@@ -11,6 +11,7 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
+import { formatToJalaliAxis } from '../utils/jalali';
 
 interface SeriesConfig {
   dataKey: string;
@@ -28,6 +29,7 @@ interface TimeSeriesChartProps {
   lines: SeriesConfig[];
   height?: number;
   xKey?: string;
+  xTickFormatter?: (value: string | number) => string;
   legend?: boolean;
   className?: string;
   tooltipFormatter?: (value: number, name?: string) => React.ReactNode;
@@ -42,7 +44,8 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   legend = false,
   className,
   tooltipFormatter,
-  yTickFormatter
+  yTickFormatter,
+  xTickFormatter
 }) => {
   const hasArea = lines.some((line) => line.type === 'area');
   const gradientPrefix = useId();
@@ -52,6 +55,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
     ? (value: any, name: string) => tooltipFormatter(Number(value), name)
     : undefined;
   const yAxisTickFormatter = yTickFormatter ?? defaultYAxisTickFormatter;
+  const xAxisTick = xTickFormatter ?? formatToJalaliAxis;
 
   return (
     <div className={className} style={{ height }}>
@@ -67,9 +71,9 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
               ))}
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis dataKey={xKey} tickMargin={8} />
+            <XAxis dataKey={xKey} tickMargin={8} tickFormatter={(value) => xAxisTick(String(value))} />
             <YAxis tickFormatter={yAxisTickFormatter} />
-            <Tooltip formatter={renderTooltip} />
+            <Tooltip formatter={renderTooltip} labelFormatter={(value) => xAxisTick(String(value))} />
             {legend && <Legend />}
             {lines.map((line, idx) =>
               line.type === 'area' ? (
@@ -98,9 +102,9 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         ) : (
           <LineChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis dataKey={xKey} tickMargin={8} />
+            <XAxis dataKey={xKey} tickMargin={8} tickFormatter={(value) => xAxisTick(String(value))} />
             <YAxis tickFormatter={yAxisTickFormatter} />
-            <Tooltip formatter={renderTooltip} />
+            <Tooltip formatter={renderTooltip} labelFormatter={(value) => xAxisTick(String(value))} />
             {legend && <Legend />}
             {lines.map((line) => (
               <Line

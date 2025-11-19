@@ -67,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     <aside
       ref={sidebarRef}
       tabIndex={-1}
-      className={`fixed inset-y-0 right-0 z-40 w-72 max-w-xs transform border-l border-slate-200 bg-white/95 px-5 py-6 shadow-2xl transition-transform duration-300 ease-out dark:border-slate-800 dark:bg-slate-900/95 lg:static lg:translate-x-0 lg:shadow-none ${
+      className={`fixed inset-y-0 right-0 z-40 w-72 max-w-xs transform border-l border-slate-200 bg-white/95 px-5 py-6 shadow-2xl transition-transform duration-300 ease-out dark:border-slate-800 dark:bg-slate-900/95 lg:sticky lg:top-24 lg:flex lg:h-[calc(100vh-96px)] lg:w-72 lg:flex-col lg:overflow-y-auto lg:rounded-[32px] lg:border lg:border-slate-200/70 lg:bg-white/80 lg:px-6 lg:py-8 lg:shadow-sm lg:dark:border-slate-800/70 lg:dark:bg-slate-900/70 lg:translate-x-0 ${
         isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'
       }`}
       role={isOpen ? 'dialog' : undefined}
