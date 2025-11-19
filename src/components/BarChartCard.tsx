@@ -52,7 +52,7 @@ const BarChartCard: React.FC<BarChartCardProps> = ({
     : undefined;
 
   const { tickFormatter, ...restXAxisProps } = xAxisProps ?? {};
-  const axisTickFormatter = (value: string | number, index: number) =>
+  const axisTickFormatter = (value: string | number, index = 0) =>
     tickFormatter ? tickFormatter(value, index) : formatToJalaliAxis(value);
 
   return (
@@ -78,8 +78,8 @@ const BarChartCard: React.FC<BarChartCardProps> = ({
             <YAxis {...yAxisProps} />
             <Tooltip
               formatter={renderTooltip}
-              labelFormatter={(value, _payload, index) =>
-                axisTickFormatter(value as string | number, index ?? 0)
+              labelFormatter={(value) =>
+                axisTickFormatter(value as string | number)
               }
             />
             {legend && <Legend />}
