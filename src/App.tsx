@@ -52,8 +52,8 @@ const App: React.FC = () => {
   return (
     <DataProvider>
       <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white" dir="rtl">
-        <div className="flex min-h-screen">
-          <aside className="relative hidden w-72 flex-shrink-0 flex-col border-l border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 lg:flex">
+        <div className="flex min-h-screen flex-row-reverse">
+          <aside className="sticky top-0 hidden h-screen w-72 flex-shrink-0 flex-col border-l border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 lg:flex">
             <Sidebar variant="desktop" />
           </aside>
 
@@ -70,15 +70,15 @@ const App: React.FC = () => {
             </>
           )}
 
-          <div className="flex min-h-screen flex-1 flex-col">
+          <div className="flex min-h-screen flex-1 flex-col bg-transparent">
             <Navbar
               onMenuClick={() => setIsNavOpen((prev) => !prev)}
               theme={theme}
               onThemeToggle={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
               isMenuOpen={isNavOpen}
             />
-            <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">
-              <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-10">
+            <main className="relative flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">
+              <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 pb-10">
                 <Routes>
                   <Route path="/" element={<OverviewPage />} />
                   <Route path="/pilot-dam" element={<DamDetailPage />} />
