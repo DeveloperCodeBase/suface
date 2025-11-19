@@ -12,7 +12,7 @@ interface DamMapProps {
   highlightDamId?: string;
   onDamSelect?: (damId: string) => void;
   legendTitle?: string;
-  mapHeight?: number;
+  mapHeight?: number | string;
 }
 
 const statusLabels: Record<DamLocation['status'], string> = {
@@ -56,7 +56,7 @@ const DamMap: React.FC<DamMapProps> = ({
   highlightDamId,
   onDamSelect,
   legendTitle,
-  mapHeight = 360
+  mapHeight
 }) => {
   const [internalDam, setInternalDam] = useState<string | null>(null);
   const damsWithCoords = useMemo(() => dams.filter((dam) => typeof dam.lat === 'number' && typeof dam.lng === 'number'), [dams]);
@@ -78,6 +78,8 @@ const DamMap: React.FC<DamMapProps> = ({
     onDamSelect?.(damId);
   };
 
+  const resolvedHeight = mapHeight ?? 'clamp(320px, 55vh, 620px)';
+
   return (
     <div className={clsx('space-y-4 w-full', className)}>
       <div className="rounded-[32px] border border-slate-200 bg-white/85 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
@@ -90,7 +92,10 @@ const DamMap: React.FC<DamMapProps> = ({
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-300">بزرگ‌نمایی مرجع ×{view.zoom}</p>
         </div>
-        <div className="relative mt-4 overflow-hidden rounded-[28px]" style={{ height: mapHeight }}>
+        <div
+          className="relative mt-4 overflow-hidden rounded-[28px] border border-slate-100/60 dark:border-slate-800/50"
+          style={{ height: resolvedHeight }}
+        >
           <MapContainer
             key={view.id}
             center={view.center}
@@ -102,7 +107,7 @@ const DamMap: React.FC<DamMapProps> = ({
             bounds={bounds}
             maxBounds={bounds}
             maxBoundsViscosity={0.6}
-            className="h-full w-full"
+            className="h-full w-full z-0"
           >
             <MapViewSync view={view} />
             <ActiveDamFocus dam={activeDam} fallbackZoom={view.zoom} />

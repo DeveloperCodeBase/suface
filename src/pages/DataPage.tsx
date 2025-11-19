@@ -119,8 +119,8 @@ const DataPage: React.FC = () => {
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="min-w-0">
             <label className="text-xs text-slate-500">انتخاب سد</label>
             <select
               value={selectedDam}
@@ -135,7 +135,7 @@ const DataPage: React.FC = () => {
             </select>
             <p className="mt-2 text-[11px] text-slate-400">داده‌ها هر ۸ ثانیه برای ایجاد حس زنده بودن به‌روزرسانی می‌شوند.</p>
           </div>
-          <div>
+          <div className="min-w-0">
             <label className="text-xs text-slate-500">بازه تاریخ (تقویم جلالی)</label>
             <div className="mt-2 grid gap-3 sm:grid-cols-2">
               <div>
@@ -167,7 +167,7 @@ const DataPage: React.FC = () => {
             </div>
             {rangeError && <p className="mt-2 text-[11px] text-rose-500">بازه انتخابی نامعتبر است.</p>}
           </div>
-          <div>
+          <div className="min-w-0">
             <label className="text-xs text-slate-500">ستون‌های قابل نمایش</label>
             <div className="mt-2 flex flex-wrap gap-2 text-xs">
               {columnsConfig.map((col) => (
@@ -197,7 +197,7 @@ const DataPage: React.FC = () => {
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
-        <div className="overflow-x-auto">
+        <div className="w-full overflow-x-auto">
           <table className="min-w-full divide-y divide-slate-100 text-sm dark:divide-slate-800">
             <thead className="bg-slate-50 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-200">
               <tr>

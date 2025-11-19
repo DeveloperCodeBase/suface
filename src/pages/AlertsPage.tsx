@@ -199,7 +199,7 @@ const AlertsPage: React.FC = () => {
                 view={detailView}
                 dams={detailDams}
                 highlightDamId={selectedDam?.id}
-                mapHeight={220}
+                mapHeight="clamp(220px, 40vh, 360px)"
                 legendTitle="نمای مکانی هشدار"
               />
             </div>
@@ -213,7 +213,7 @@ const AlertsPage: React.FC = () => {
         title="نمودار تعداد هشدارها"
         data={chartData}
         xKey="date"
-        height={280}
+        height="clamp(220px, 35vh, 360px)"
         bars={[{ dataKey: 'count', color: '#f97316', name: 'تعداد هشدار' }]}
         yAxisProps={{ allowDecimals: false }}
       />

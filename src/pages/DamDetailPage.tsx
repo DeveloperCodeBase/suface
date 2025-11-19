@@ -29,7 +29,7 @@ const DamDetailPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-slate-500">استان سمنان – حوضه آبریز {pilotDam.basin}</p>
           <h1 className="page-title mt-2 text-slate-900 dark:text-white">{pilotDam.name}</h1>
@@ -39,7 +39,7 @@ const DamDetailPage: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <KpiCard label="تراز فعلی (متر)" value={pilotDam.currentWaterLevel} />
         <KpiCard label="حجم ذخیره (میلیون مترمکعب)" value={pilotDam.storageVolumeMCM} />
         <KpiCard label="درصد پرشدگی" value={`${pilotDam.fillPercent}%`} />
@@ -89,10 +89,11 @@ const DamDetailPage: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="mt-4 h-80">
+        <div className="mt-4">
           {tab === 'level' && (
             <TimeSeriesChart
-              className="h-full"
+              className="w-full"
+              height="clamp(260px, 45vh, 420px)"
               data={filteredSeries}
               xKey="date"
               lines={[{ dataKey: 'waterLevel', color: '#0ea5e9', name: 'تراز' }]}
@@ -100,7 +101,8 @@ const DamDetailPage: React.FC = () => {
           )}
           {tab === 'flow' && (
             <TimeSeriesChart
-              className="h-full"
+              className="w-full"
+              height="clamp(260px, 45vh, 420px)"
               data={filteredSeries}
               xKey="date"
               legend
@@ -112,7 +114,8 @@ const DamDetailPage: React.FC = () => {
           )}
           {tab === 'forecast' && (
             <TimeSeriesChart
-              className="h-full"
+              className="w-full"
+              height="clamp(260px, 45vh, 420px)"
               data={forecast}
               xKey="date"
               lines={[{ dataKey: 'waterLevel', color: '#1d4ed8', type: 'area', name: 'پیش‌بینی تراز' }]}
@@ -121,10 +124,10 @@ const DamDetailPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2">
+      <div className="grid gap-6 xl:grid-cols-3 xl:items-start">
+        <div className="rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 xl:col-span-2">
           <h3 className="section-title text-slate-800 dark:text-white">بارش و تبخیر</h3>
-          <div className="mt-4 h-72">
+          <div className="mt-4" style={{ minHeight: 'clamp(240px, 40vh, 360px)' }}>
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={series.slice(-30)}>
                 <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
@@ -138,7 +141,9 @@ const DamDetailPage: React.FC = () => {
             </ResponsiveContainer>
           </div>
         </div>
-        <AlertsList alerts={damAlerts} title={`هشدارهای ${pilotDam.name}`} limit={4} />
+        <div className="min-w-0">
+          <AlertsList alerts={damAlerts} title={`هشدارهای ${pilotDam.name}`} limit={4} />
+        </div>
       </div>
 
       <DataTable

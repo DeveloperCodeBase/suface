@@ -52,8 +52,8 @@ const App: React.FC = () => {
   return (
     <DataProvider>
       <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white" dir="rtl">
-        <div className="flex min-h-screen flex-row-reverse">
-          <aside className="sticky top-0 hidden h-screen w-72 flex-shrink-0 flex-col border-l border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 lg:flex">
+        <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col lg:flex-row-reverse">
+          <aside className="sticky top-0 hidden h-screen w-72 flex-shrink-0 flex-col border-l border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800/70 dark:bg-slate-900/70 lg:z-[900] lg:flex">
             <Sidebar variant="desktop" />
           </aside>
 
@@ -61,16 +61,16 @@ const App: React.FC = () => {
             <>
               <div
                 role="presentation"
-                className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm lg:hidden"
+                className="fixed inset-0 z-[1200] bg-slate-950/60 backdrop-blur-sm lg:hidden"
                 onClick={() => setIsNavOpen(false)}
               />
-              <aside className="fixed inset-y-0 right-0 z-50 flex w-72 flex-col border-l border-slate-200/70 bg-white/95 shadow-xl dark:border-slate-800 dark:bg-slate-900 lg:hidden">
+              <aside className="fixed inset-y-0 right-0 z-[1300] flex w-72 flex-col border-l border-slate-200/70 bg-white/95 shadow-xl dark:border-slate-800 dark:bg-slate-900 lg:hidden">
                 <Sidebar variant="mobile" onClose={() => setIsNavOpen(false)} />
               </aside>
             </>
           )}
 
-          <div className="flex min-h-screen flex-1 flex-col bg-transparent">
+          <div className="flex min-h-screen flex-1 flex-col bg-transparent lg:order-1" style={{ minWidth: 0 }}>
             <Navbar
               onMenuClick={() => setIsNavOpen((prev) => !prev)}
               theme={theme}

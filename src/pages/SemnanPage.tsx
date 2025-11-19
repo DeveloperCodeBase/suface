@@ -27,20 +27,22 @@ const SemnanPage: React.FC = () => {
         <KpiCard label="هشدارهای فعال استان" value={3} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 xl:grid-cols-2 xl:items-start">
         <DamMap
+          className="min-w-0"
           view={SEMNAN_VIEW}
           dams={SEMNAN_DAMS}
           highlightDamId={activeMapDam}
           onDamSelect={setActiveMapDam}
           legendTitle="کاربری و وضعیت سدهای استان"
+          mapHeight="clamp(320px, 55vh, 620px)"
         />
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-0">
           <BarChartCard
             title="مقایسه درصد پرشدگی سدها"
             data={semnanDams}
             xKey="name"
-            height={320}
+            height="clamp(220px, 35vh, 360px)"
             xAxisProps={{ interval: 0, angle: -10, textAnchor: 'end', height: 80 }}
             bars={[{ dataKey: 'fillPercent', color: '#0ea5e9', name: 'درصد پرشدگی' }]}
           />
@@ -48,7 +50,7 @@ const SemnanPage: React.FC = () => {
             title="حجم ذخیره سدهای استان"
             data={semnanDams}
             xKey="name"
-            height={260}
+            height="clamp(220px, 35vh, 360px)"
             xAxisProps={{ interval: 0, angle: -10, textAnchor: 'end', height: 70 }}
             tooltipFormatter={(value) => `${value} میلیون مترمکعب`}
             bars={[{ dataKey: 'storageVolumeMCM', color: '#14b8a6', name: 'حجم ذخیره' }]}
@@ -79,7 +81,7 @@ const SemnanPage: React.FC = () => {
         title="بارش ماهانه ۱۲ ماه گذشته"
         data={monthlyRainSemnan}
         xKey="month"
-        height={280}
+        height="clamp(220px, 35vh, 360px)"
         xAxisProps={{ tickFormatter: (value) => formatToJalaliMonth(value as string) }}
         bars={[{ dataKey: 'rainfall', color: '#38bdf8', name: 'بارش (میلی‌متر)' }]}
       />

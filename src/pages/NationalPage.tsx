@@ -88,7 +88,8 @@ const NationalPage: React.FC = () => {
         <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
           <h3 className="section-title text-slate-800 dark:text-white">روند ذخیره کل کشور (۵ سال)</h3>
           <TimeSeriesChart
-            className="mt-4 h-80"
+            className="mt-4 w-full"
+            height="clamp(260px, 45vh, 420px)"
             data={nationalTrend}
             xKey="year"
             lines={[{ dataKey: 'storage', color: '#0284c7', type: 'area', name: 'ذخیره کل' }]}

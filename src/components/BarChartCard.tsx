@@ -26,7 +26,7 @@ interface BarChartCardProps {
   data: Record<string, any>[];
   xKey: string;
   bars: BarConfig[];
-  height?: number;
+  height?: number | string;
   legend?: boolean;
   className?: string;
   xAxisProps?: Partial<XAxisProps>;

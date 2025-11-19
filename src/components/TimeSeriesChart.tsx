@@ -27,7 +27,7 @@ const defaultYAxisTickFormatter = (value: number): string => value.toLocaleStrin
 interface TimeSeriesChartProps {
   data: Record<string, any>[];
   lines: SeriesConfig[];
-  height?: number;
+  height?: number | string;
   xKey?: string;
   xTickFormatter?: (value: string | number) => string;
   legend?: boolean;
